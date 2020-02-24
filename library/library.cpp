@@ -86,7 +86,7 @@ int enroll(std::string &name){
 	{
 		return DUPLICATE_NAME;
 	}
-	// Only gives patron_id and adds to vector if not a repeated name
+	// Only gives a patron_id and adds to vector if not a repeated name
 	else
 	{
 		np.patron_id = numbPatrons() + 1;
