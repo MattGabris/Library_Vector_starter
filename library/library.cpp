@@ -71,6 +71,17 @@ int checkin(int bookid){
  *    the patron_id of the person added
  */
 int enroll(std::string &name){
+	vector<book> bkVector;
+	vector<patron> ptVector;
+	loadBooks(bkVector, BOOKFILE); // TODO ----- BOOKFILE is a String not a character like loadBooks is looking for
+	loadPatrons(ptVector, PATRONFILE);
+	// ----- Check vector of patrons to see if one matches &name
+	if (std::find(ptVector.begin(), ptVector.end(), name) != ptVector.end()){
+		return DUPLICATE_NAME;
+	}
+	patron np;
+	np.patron_id = numbPatrons;
+
 	return 0;
 }
 
