@@ -6,7 +6,7 @@ using namespace std;
  * 			SUCCESS if all data is loaded
  * */
 int loadBooks(std::vector<book> &books, const char* filename)
-{
+{ // from File to Vector
 	return SUCCESS;
 }
 
@@ -26,7 +26,7 @@ int saveBooks(std::vector<book> &books, const char* filename)
  * 			SUCCESS if all data is loaded
  * */
 int loadPatrons(std::vector<patron> &patrons, const char* filename)
-{
+{ // from Vector to File
 	return SUCCESS;
 }
 

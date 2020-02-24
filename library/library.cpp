@@ -73,16 +73,26 @@ int checkin(int bookid){
 int enroll(std::string &name){
 	vector<book> bkVector;
 	vector<patron> ptVector;
-	loadBooks(bkVector, BOOKFILE); // TODO ----- BOOKFILE is a String not a character like loadBooks is looking for
-	loadPatrons(ptVector, PATRONFILE);
-	// ----- Check vector of patrons to see if one matches &name
-	if (std::find(ptVector.begin(), ptVector.end(), name) != ptVector.end()){
+	loadBooks(bkVector, BOOKFILE); // TODO ----- BOOKFILE is a String not a Char like loadBooks is looking for
+	loadPatrons(ptVector, PATRONFILE); // TODO ----- PATRONFILE is a String not a Char like loadPatrons is looking for
+
+	patron np; // Create a new patron object
+	np.patron(); // Initializes patronID to uninitialized constant and num books checked out to NONE constant
+	np.name = name;	// Give patron name
+
+	// Check vector of patrons to see if one matches &name
+	// TODO ----- Might not work, unsure if it's checking the entire patron struct or the name
+	if (std::find(ptVector.begin(), ptVector.end(), name) != ptVector.end())
+	{
 		return DUPLICATE_NAME;
 	}
-	patron np;
-	np.patron_id = numbPatrons;
-
-	return 0;
+	// Only gives patron_id and adds to vector if not a repeated name
+	else
+	{
+		np.patron_id = numbPatrons() + 1;
+		ptVector.push_back(np);
+	}
+	return np.patron_id;
 }
 
 /*
