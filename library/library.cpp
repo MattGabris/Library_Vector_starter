@@ -29,17 +29,38 @@ const vector<patron> emptypvec;
 //NOTE: also make sure you save patron and book data to disk any time you make a change to them
 //NOTE: for files where data is stored see constants.h BOOKFILE and PATRONFILE
 
+/**
+ * helper method to make clearing containers easier
+ * Only used to clear the containers and re-initialize them to their empty state
+ */
+void clearContainers(){
+	bvec = emptybvec;
+	pvec = emptypvec;
+}
+
 /*
  * clear books and patrons containers
  * then reload them from disk 
  */
 void reloadAllData() {
 	// Clear containers (vectors)
-	bvec = emptybvec;
-	pvec = emptypvec;
+	clearContainers();
 	// Reload from disk
 	loadBooks(bvec, bkFile); 	// TODO ----- CONST CHAR* ISSUE
 	loadPatrons(pvec, ptFile);	// TODO ----- CONST CHAR* ISSUE
+}
+
+/**
+ * helper method developed by me to make saving easier
+ * Saves all data from containers to disk and then clears the containers
+ */
+void saveAllData(){
+	// Save to disk
+	saveBooks(bvec, bkFile);	// TODO ----- CONST CHAR* ISSUE
+	savePatrons(pvec, ptFile);	// TODO ----- CONST CHAR* ISSUE
+
+	// Clear containers (vectors)
+	clearContainers();
 }
 
 /* checkout a book to a patron
@@ -105,8 +126,7 @@ int checkout(int bookid, int patronid) {
 	thisBook.state = OUT;
 	thisPatron.number_books_checked_out++;
 	// SAVE books and patrons
-	saveBooks(bvec, bkFile);
-	savePatrons(pvec, ptFile);
+	saveAllData(); // ----- Hopefully this works?? I wrote a helper method
 	return SUCCESS; // RETURN because all checks passed and the data was successfully saved
 }
 
@@ -149,8 +169,7 @@ int checkin(int bookid) {
 	thisBook.loaned_to_patron_id = NO_ONE;
 	thisBook.state = IN;
 	// SAVE books and patrons
-	saveBooks(bvec, bkFile);
-	savePatrons(pvec, ptFile);
+	saveAllData(); // ----- Hopefully this works?? I wrote a helper method
 	return SUCCESS; // RETURN because all checks passed and the data was successfully saved
 }
 
@@ -164,8 +183,20 @@ int checkin(int bookid) {
  *    the patron_id of the person added
  */
 int enroll(std::string &name) {
-
-	return 0;
+	// LOAD patrons (and books, but they won't be changed so this can be neglected)
+	reloadAllData();
+	// Create new patron object
+	patron newPatron;
+	// Generate patron_id
+	int thisPatron_id = numbPatrons() + 1;
+	// Initialize other fields such as name and number_books_checked_out
+	newPatron.name = name;
+	newPatron.number_books_checked_out = NONE;
+	// push the new patron onto the back of the container
+	pvec.push_back(newPatron);
+	// SAVE patrons
+	saveAllData(); // ----- Hopefully this works?? I wrote a helper method
+	return thisPatron_id; // Return the id number of this new patron
 }
 
 /*
