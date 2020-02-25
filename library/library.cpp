@@ -76,8 +76,8 @@ int enroll(std::string &name){
 	loadBooks(bkVector, BOOKFILE); // TODO ----- BOOKFILE is a String not a Char like loadBooks is looking for
 	loadPatrons(ptVector, PATRONFILE); // TODO ----- PATRONFILE is a String not a Char like loadPatrons is looking for
 
-	patron np; // Create a new patron object
-	np.patron(); // Initializes patronID to uninitialized constant and num books checked out to NONE constant
+	patron np; // Create a new patron
+	np.patron(); // Initializes patronID to UNIINITIALIZED constant and num_books_checked_out to NONE constant
 	np.name = name;	// Give patron name
 
 	// Check vector of patrons to see if one matches &name
