@@ -349,3 +349,8 @@ int whatIsPatronName(std::string &name, int patronid) {
 //	saveAllData(); // ----- Hopefully this works?? I wrote a helper method
 //	return SUCCESS; // RETURN because all checks passed and the data was successfully saved
 //}
+//
+//
+//
+// Technically howmanybooksDoesPatronHaveCheckedOut should also be down here, but I implemented the
+// 		helper methods alongside that one, so it does not have an "original" method format
