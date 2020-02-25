@@ -9,8 +9,8 @@ const std::string PATRONFILE_EMPTY	= "./tmp/patronfileMT.txt";	// to write to
 const std::string NON_EXISTANT = "./tmp/nonexistantfile";		// ???????????
 const std::string TMP_FILE = "./tmp/tmp.txt";					// for manipulations before final saves?
 
-const int BOGUS_USER 			= 10000;
-const int BOGUS_BOOK 			= 10000;
+const int BOGUS_USER 			= 10000;	// ????????????????
+const int BOGUS_BOOK 			= 10000;	// ????????????????
 
 const int MAX_BOOKS_ALLOWED_OUT = 5;	// Max books allowed out per patron	(different per patron)
 const int UNINITIALIZED			= -1;	// Used in datastructures.h to give a "non-id value" to new users/books	(for patrons and books)

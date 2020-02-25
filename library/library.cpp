@@ -63,6 +63,34 @@ void saveAllData(){
 	clearContainers();
 }
 
+/**
+ * helper method to streamline checking if the patron is enrolled
+ * returns the index of where the patron is in pvec
+ * 			PATRON_NOT_ENROLLED
+ */
+int isPatronEnrolled(int patronid){
+	for (int i = 0; i < pvec.size(); i++){
+		if (patronid == pvec[i].patron_id){ // patron is enrolled, break from loop
+			return i;
+		}
+	}
+	return PATRON_NOT_ENROLLED; // RETURN because the patron is not in the enrolled
+}
+
+/**
+ * helper method to streamline checking if the book is enrolled
+ * returns the index of where the book is in bvec
+ * 			BOOK_NOT_IN_COLLECTION
+ */
+int isBookInCollection(int bookid){
+	for (int i = 0; i < bvec.size(); i++){
+		if (bookid == bvec[i].book_id){ // book found, break from loop
+			return i;	// Assign the index of the book in bvec
+		}
+	}
+	return BOOK_NOT_IN_COLLECTION; // RETURN because the book is not in the collection
+}
+
 /* checkout a book to a patron
  * first load books and patrons from disk
  * make sure patron enrolled (patronid is assigned to a patron in patrons container)
@@ -87,30 +115,21 @@ int checkout(int bookid, int patronid) {
 	// LOAD books and patrons into vectors
 	reloadAllData();
 	// Variables to reassign later if both of these exist in the library/are enrolled for easier access to the entire object
-	int patronIndexHolder = 0;
-	int bookIndexHolder = 0;
+	int patronIndexHolder;
+	int bookIndexHolder;
+
 	// CHECK : is patron enrolled?
-	for (int i = 0; i < pvec.size(); i++){
-		if (patronid == pvec[i].patron_id){ // patron is enrolled, break from loop
-			patronIndexHolder = i;	// Assign the index of the patron in pvec
-			break;
-		}
-		if (i == pvec.size() - 1){	// every patron enrolled has been checked, this is not in there ((MIGHT NOT NEED THE "-1"))
-			return PATRON_NOT_ENROLLED;// RETURN because patron is not enrolled
-		}
+	patronIndexHolder = isPatronEnrolled(patronid);
+	if (patronIndexHolder == PATRON_NOT_ENROLLED){
+		return PATRON_NOT_ENROLLED; // RETURN because the patron is not enrolled
 	}
 	// From here on out, assume the patron is enrolled
 	patron thisPatron = pvec[patronIndexHolder];
 
 	// CHECK : is book in the collection?
-	for (int i = 0; i < bvec.size(); i++){
-		if (bookid == bvec[i].book_id){ // book found, break from loop
-			bookIndexHolder = i;	// Assign the index of the book in bvec
-			break;
-		}
-		if (i == bvec.size() - 1){ // every book has been checked, this is not in the library ((MIGHT NOT NEED THE "-1"))
-			return BOOK_NOT_IN_COLLECTION; // RETURN because the book is not in the collection
-		}
+	bookIndexHolder = isBookInCollection(bookid);
+	if (bookIndexHolder == BOOK_NOT_IN_COLLECTION){
+		return BOOK_NOT_IN_COLLECTION; // RETURN because the book is not in the collection
 	}
 	// From here on out, assume patron is enrolled and book is in library
 	book thisBook = bvec[bookIndexHolder];
@@ -148,17 +167,13 @@ int checkin(int bookid) {
 	// Variables to reassign later if both of these exist in the library/are enrolled for easier access to the entire object
 	int patronIndexHolder = 0;
 	int bookIndexHolder = 0;
-	// CHECK : is the book in the collection?
-	for (int i = 0; i < bvec.size();i++){
-		if (bookid = bvec[i].book_id){ // book is in collection, break from loop
-			bookIndexHolder = i; // Assign the index of the book in bvec
-			break;
-		}
-		if (i == bvec.size() - 1){	// every patron enrolled has been checked, this is not in there ((MIGHT NOT NEED THE "-1"))
-			return BOOK_NOT_IN_COLLECTION;// RETURN because patron is not enrolled
-		}
+
+	// CHECK : is book in the collection?
+	bookIndexHolder = isBookInCollection(bookid);
+	if (bookIndexHolder == BOOK_NOT_IN_COLLECTION){
+		return BOOK_NOT_IN_COLLECTION; // RETURN because the book is not in the collection
 	}
-	// From here on out, assume that the book is in the collection
+	// From here on out, assume patron is enrolled and book is in library
 	book thisBook = bvec[bookIndexHolder];
 
 	// Find the patron who turned in the book
@@ -205,7 +220,7 @@ int enroll(std::string &name) {
  * 
  */
 int numbBooks() {
-	return 0;
+	return bvec.size();
 }
 
 /*
@@ -213,7 +228,7 @@ int numbBooks() {
  * (ie. if 3 patrons returns 3)
  */
 int numbPatrons() {
-	return 0;
+	return pvec.size();
 }
 
 /*the number of books patron has checked out
@@ -222,7 +237,20 @@ int numbPatrons() {
  *        or PATRON_NOT_ENROLLED         
  */
 int howmanybooksdoesPatronHaveCheckedOut(int patronid) {
-	return 0;
+	// LOAD all patrons (and books, but they won't be changed so this can be neglected)
+	reloadAllData();
+	// Variable to reassign later if a patron is enrolled
+	int patronIndexHolder = 0;
+
+	// CHECK : is patron enrolled?
+	patronIndexHolder = isPatronEnrolled(patronid);
+	if (patronIndexHolder == PATRON_NOT_ENROLLED){
+		return PATRON_NOT_ENROLLED; // RETURN because the patron is not enrolled
+	}
+	// From here on out, assume the patron is enrolled
+	patron thisPatron = pvec[patronIndexHolder];
+
+	return thisPatron.number_books_checked_out; // RETURN number of books checked out
 }
 
 /* search through patrons container to see if patronid is there
@@ -234,3 +262,90 @@ int howmanybooksdoesPatronHaveCheckedOut(int patronid) {
 int whatIsPatronName(std::string &name, int patronid) {
 	return SUCCESS;
 }
+
+
+
+
+
+// Old Code before helper methods were introduced, just in case
+//
+//
+//int checkout(int bookid, int patronid) {
+//	// LOAD books and patrons into vectors
+//	reloadAllData();
+//	// Variables to reassign later if both of these exist in the library/are enrolled for easier access to the entire object
+//	int patronIndexHolder = 0;
+//	int bookIndexHolder = 0;
+//	// CHECK : is patron enrolled?
+//	for (int i = 0; i < pvec.size(); i++){
+//		if (patronid == pvec[i].patron_id){ // patron is enrolled, break from loop
+//			patronIndexHolder = i;	// Assign the index of the patron in pvec
+//			break;
+//		}
+//		if (i == pvec.size() - 1){	// every patron enrolled has been checked, this is not in there ((MIGHT NOT NEED THE "-1"))
+//			return PATRON_NOT_ENROLLED;// RETURN because patron is not enrolled
+//		}
+//	}
+//	// From here on out, assume the patron is enrolled
+//	patron thisPatron = pvec[patronIndexHolder];
+//
+//	// CHECK : is book in the collection?
+//	for (int i = 0; i < bvec.size(); i++){
+//		if (bookid == bvec[i].book_id){ // book found, break from loop
+//			bookIndexHolder = i;	// Assign the index of the book in bvec
+//			break;
+//		}
+//		if (i == bvec.size() - 1){ // every book has been checked, this is not in the library ((MIGHT NOT NEED THE "-1"))
+//			return BOOK_NOT_IN_COLLECTION; // RETURN because the book is not in the collection
+//		}
+//	}
+//	// From here on out, assume patron is enrolled and book is in library
+//	book thisBook = bvec[bookIndexHolder];
+//
+//	// CHECK : does the patron have the MAX_BOOKS_ALLOWED_OUT?
+//	if (thisPatron.number_books_checked_out == MAX_BOOKS_ALLOWED_OUT){
+//		return TOO_MANY_OUT; // RETURN because the patron has the max allowed number of books checked out
+//	}
+//	// From here on out, assume the patron is enrolled, the book is in the library, and the patron can check it out
+//
+//	// Assign the book to the patron and set the state to out
+//	thisBook.loaned_to_patron_id = patronid;
+//	thisBook.state = OUT;
+//	thisPatron.number_books_checked_out++;
+//	// SAVE books and patrons
+//	saveAllData(); // ----- Hopefully this works?? I wrote a helper method
+//	return SUCCESS; // RETURN because all checks passed and the data was successfully saved
+//}
+//
+//
+//
+//int checkin(int bookid) {
+//	// LOAD books and patrons into vectors
+//	reloadAllData();
+//	// Variables to reassign later if both of these exist in the library/are enrolled for easier access to the entire object
+//	int patronIndexHolder = 0;
+//	int bookIndexHolder = 0;
+//	// CHECK : is the book in the collection?
+//	for (int i = 0; i < bvec.size();i++){
+//		if (bookid = bvec[i].book_id){ // book is in collection, break from loop
+//			bookIndexHolder = i; // Assign the index of the book in bvec
+//			break;
+//		}
+//		if (i == bvec.size() - 1){	// every patron enrolled has been checked, this is not in there ((MIGHT NOT NEED THE "-1"))
+//			return BOOK_NOT_IN_COLLECTION;// RETURN because patron is not enrolled
+//		}
+//	}
+//	// From here on out, assume that the book is in the collection
+//	book thisBook = bvec[bookIndexHolder];
+//
+//	// Find the patron who turned in the book
+//	patronIndexHolder = bvec[bookIndexHolder].loaned_to_patron_id;
+//	patron thisPatron = pvec[patronIndexHolder];
+//	// Logic for checking in the book
+//	thisPatron.number_books_checked_out--;
+//	thisBook.loaned_to_patron_id = NO_ONE;
+//	thisBook.state = IN;
+//	// SAVE books and patrons
+//	saveAllData(); // ----- Hopefully this works?? I wrote a helper method
+//	return SUCCESS; // RETURN because all checks passed and the data was successfully saved
+//}
