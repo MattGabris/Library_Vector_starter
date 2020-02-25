@@ -260,6 +260,7 @@ int howmanybooksdoesPatronHaveCheckedOut(int patronid) {
  *         PATRON_NOT_ENROLLED no patron with this patronid
  */
 int whatIsPatronName(std::string &name, int patronid) {
+
 	return SUCCESS;
 }
 
@@ -267,7 +268,7 @@ int whatIsPatronName(std::string &name, int patronid) {
 
 
 
-// Old Code before helper methods were introduced, just in case
+// Old Code before helper methods (isPatronEnrolled and isBookInCollection) were introduced, just in case
 //
 //
 //int checkout(int bookid, int patronid) {
@@ -352,5 +353,5 @@ int whatIsPatronName(std::string &name, int patronid) {
 //
 //
 //
-// Technically howmanybooksDoesPatronHaveCheckedOut should also be down here, but I implemented the
-// 		helper methods alongside that one, so it does not have an "original" method format
+// Technically howmanybooksdoesPatronHaveCheckedOut and whatIsPatronName should also be down here,
+//		but I implemented the helper methods alongside them, so they don't have "original" methods
