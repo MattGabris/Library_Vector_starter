@@ -99,6 +99,7 @@ int checkout(int bookid, int patronid) {
 		return TOO_MANY_OUT; // RETURN because the patron has the max allowed number of books checked out
 	}
 	// From here on out, assume the patron is enrolled, the book is in the library, and the patron can check it out
+
 	// Assign the book to the patron and set the state to out
 	thisBook.loaned_to_patron_id = patronid;
 	thisBook.state = OUT;
@@ -122,7 +123,35 @@ int checkout(int bookid, int patronid) {
  * 		   BOOK_NOT_IN_COLLECTION
  */
 int checkin(int bookid) {
-	return SUCCESS;
+	// LOAD books and patrons into vectors
+	reloadAllData();
+	// Variables to reassign later if both of these exist in the library/are enrolled for easier access to the entire object
+	int patronIndexHolder = 0;
+	int bookIndexHolder = 0;
+	// CHECK : is the book in the collection?
+	for (int i = 0; i < bvec.size();i++){
+		if (bookid = bvec[i].book_id){ // book is in collection, break from loop
+			bookIndexHolder = i; // Assign the index of the book in bvec
+			break;
+		}
+		if (i == bvec.size() - 1){	// every patron enrolled has been checked, this is not in there ((MIGHT NOT NEED THE "-1"))
+			return BOOK_NOT_IN_COLLECTION;// RETURN because patron is not enrolled
+		}
+	}
+	// From here on out, assume that the book is in the collection
+	book thisBook = bvec[bookIndexHolder];
+
+	// Find the patron who turned in the book
+	patronIndexHolder = bvec[bookIndexHolder].loaned_to_patron_id;
+	patron thisPatron = pvec[patronIndexHolder];
+	// Logic for checking in the book
+	thisPatron.number_books_checked_out--;
+	thisBook.loaned_to_patron_id = NO_ONE;
+	thisBook.state = IN;
+	// SAVE books and patrons
+	saveBooks(bvec, bkFile);
+	savePatrons(pvec, ptFile);
+	return SUCCESS; // RETURN because all checks passed and the data was successfully saved
 }
 
 /*
