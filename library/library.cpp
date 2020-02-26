@@ -11,7 +11,11 @@ using namespace std;
 
 // TODO ----- Why do these not work? I'm unsure how to get a const* char
 // 				to point to the file names and get the laodFile and loadPatrons functions to work
-char* bkFile = BOOKFILE;
+
+const char* bkFile = BOOKFILE;
+
+
+
 char* ptFile = PATRONFILE;
 char* emptybkFile = BOOKFILE_EMPTY; // To be used in reload all data??
 char* emptyptFile = PATRONFILE_EMPTY;	// To be used in reload all data??
