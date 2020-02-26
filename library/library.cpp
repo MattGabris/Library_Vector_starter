@@ -260,8 +260,17 @@ int howmanybooksdoesPatronHaveCheckedOut(int patronid) {
  *         PATRON_NOT_ENROLLED no patron with this patronid
  */
 int whatIsPatronName(std::string &name, int patronid) {
-
-	return SUCCESS;
+	// LOAD all patrons (and books, but they won't be changed so this can be neglected)
+	reloadAllData();
+	// Variable to hold the index of the patron in pvec
+	int patronIndexHolder = isPatronEnrolled(patronid);
+	// CHECK : is patron enrolled?
+	if (patronIndexHolder == PATRON_NOT_ENROLLED){
+		return PATRON_NOT_ENROLLED; // RETURN because patron is not enrolled
+	}
+	// From here on out, assume the patron is enrolled
+	pvec[patronIndexHolder].name = name; // Set the patron's name (I think this what you have to do???)
+	return patronid; // RETURN the patronid given, now with a name associated to it
 }
 
 
