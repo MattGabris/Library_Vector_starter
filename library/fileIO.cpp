@@ -21,23 +21,18 @@ const char CHAR_TO_SEARCH_FOR = ',';
  * */
 int loadBooks(std::vector<book> &books, const char* filename) // from File to Vector
 {
-
 	// CLEARS the input vector
 	books.clear();
 
-	// Create an input stream for the books from the input file
-	ifstream inputBookStream;
-	inputBookStream.open(filename, ios::in);
+	// Create an input stream for the books from the input file and open it
+	ifstream inStreamBook;
+	inStreamBook.open(filename, ios::in);
 
 	// CHECK : is the file open?
-	if (!inputBookStream.is_open()){ // if file did not open
+	if (!inStreamBook.is_open()){ // if file did not open
 		return COULD_NOT_OPEN_FILE; // RETURN because the file was not opened
 	}
-	// CHECK : does the input vector have any data?
-	if (books.size() == 0){	// if no books in library
-		return NO_BOOKS_IN_LIBRARY;	// RETURN because the input vector was empty
-	}
-	// From here on out, assume the file is open and the input vector is not empty
+	// From here on out, assume the file is open
 
 	// Variable to hold parts parsed from the input file
 	std::string curbook; // string to hold line of text from file containing all the book's info
@@ -52,10 +47,14 @@ int loadBooks(std::vector<book> &books, const char* filename) // from File to Ve
 	std::stringstream ss;
 
 	// While the end of the file has not been reached
-	while (!inputBookStream.eof()){
-		std::getline(inputBookStream, curbook); // load new line (each line = 1 book's info)
-			// EACH BOOK IS STORED LIKE --> curbookid, curbooktitle
+	while (!inStreamBook.eof()){
+		std::getline(inStreamBook, curbook); // load new line (each line = 1 book's info)
 		ss.str(curbook); // convert book stream from input stream to string stream and store in ss
+
+		// CHECK : does the file have any data? TODO Might not be the right place to put this
+		if (curbook == ""){
+			return NO_BOOKS_IN_LIBRARY;
+		}
 
 		// Take data from input and stores data
 		std::getline(ss, curbookid, CHAR_TO_SEARCH_FOR); // reads line until delim, gets curbookid
@@ -70,11 +69,11 @@ int loadBooks(std::vector<book> &books, const char* filename) // from File to Ve
 		tempbook.author = curbookauthor;
 		switch(stoi(curbookstate)) { // switch statement to make setting the state easier
 		case 0:
-			tempbook.state = UNKNOWN; break;
+			tempbook.state = (UNKNOWN); break;
 		case 1:
-			tempbook.state = IN; break;
+			tempbook.state = (IN); break;
 		case 2:
-			tempbook.state = OUT; break;
+			tempbook.state = (OUT); break;
 		}
 		tempbook.loaned_to_patron_id = stoi(curbookpatron);
 
@@ -86,7 +85,12 @@ int loadBooks(std::vector<book> &books, const char* filename) // from File to Ve
 	// By this point all the data should have been parsed and organized
 
 	// CLOSE file
-	inputBookStream.close();
+	inStreamBook.close();
+
+	// CHECK : does the books vector have any data?
+	if (books.size() == 0){	// if no books in library
+		return NO_BOOKS_IN_LIBRARY;	// RETURN because the input vector was empty
+	}
 
 	return SUCCESS; // RETURN because file was successfully iterated through and placed into a container
 }
@@ -96,9 +100,39 @@ int loadBooks(std::vector<book> &books, const char* filename) // from File to Ve
  * 			NO_BOOKS_IN_LIBRARY if there are 0 entries books (do not create file)
  * 			SUCCESS if all data is saved
  * */
-int saveBooks(std::vector<book> &books, const char* filename)
+int saveBooks(std::vector<book> &books, const char* filename) // from Vector to File
 {
-	return SUCCESS;
+	// CHECK : does the input vector have any data?
+	if (books.size() == 0){	// if no books in library
+		return NO_BOOKS_IN_LIBRARY;	// RETURN because the input vector was empty
+	}
+	// From here on out, assume the input vector is not empty
+
+	// Create an output stream for the books from the output file and open it
+	ofstream outStreamBook;
+	outStreamBook.open(filename, ios::in);
+
+	// CHECK : is the file open?
+	if (!outStreamBook.is_open()){ // if file did not open
+		return COULD_NOT_OPEN_FILE; // RETURN because the file was not opened
+	}
+	// From here on out, assume the file has been opened and the input vector is not empty
+
+	// Temporary string to hold a line of text containing a book's data
+	std::string bookLine;
+	// Fill bookLine with data and push it onto the file's ofstream
+	for (int i = 0; i < books.size(); i++){
+		bookLine = to_string(books[i].book_id) + "," +
+					books[i].title + "," +
+					books[i].author + "," +
+					to_string(books[i].state) + "," +
+					to_string(books[i].loaned_to_patron_id);
+		outStreamBook << bookLine << "\n";
+	}
+	// CLOSE file
+	outStreamBook.close();
+
+	return SUCCESS; // RETURN because all data was saved successfully
 }
 
 /* clears, then loads patrons from the file filename
@@ -107,7 +141,7 @@ int saveBooks(std::vector<book> &books, const char* filename)
  * 			SUCCESS if all data is loaded
  * */
 int loadPatrons(std::vector<patron> &patrons, const char* filename)
-{ // from Vector to File
+{
 	return SUCCESS;
 }
 

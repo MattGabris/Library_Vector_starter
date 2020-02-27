@@ -9,9 +9,6 @@
 #include "../includes_usr/fileIO.h"
 using namespace std;
 
-// TODO ----- Why do these not work? I'm unsure how to get a const* char
-// 				to point to the file names and get the laodFile and loadPatrons functions to work
-
 const char* bkFile = BOOKFILE.c_str();
 const char* ptFile = PATRONFILE.c_str();
 const char* emptybkFile = BOOKFILE_EMPTY.c_str(); // To be used in reload all data??
@@ -44,8 +41,8 @@ void reloadAllData() {
 	// Clear containers (vectors)
 	clearContainers();
 	// Reload from disk
-	loadBooks(bvec, bkFile); 	// TODO ----- CONST CHAR* ISSUE
-	loadPatrons(pvec, ptFile);	// TODO ----- CONST CHAR* ISSUE
+	loadBooks(bvec, bkFile);
+	loadPatrons(pvec, ptFile);
 }
 
 /**
@@ -54,8 +51,8 @@ void reloadAllData() {
  */
 void saveAllData(){
 	// Save to disk
-	saveBooks(bvec, bkFile);	// TODO ----- CONST CHAR* ISSUE
-	savePatrons(pvec, ptFile);	// TODO ----- CONST CHAR* ISSUE
+	saveBooks(bvec, bkFile);
+	savePatrons(pvec, ptFile);
 
 	// Clear containers (vectors)
 	clearContainers();
