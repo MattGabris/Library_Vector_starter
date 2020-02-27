@@ -22,9 +22,6 @@ const char* emptyptFile = PATRONFILE_EMPTY.c_str();	// To be used in reload all 
 // create vectors to hold books and patrons
 vector<book> bvec;
 vector<patron> pvec;
-// constant vectors for clearing
-const vector<book> emptybvec;
-const vector<patron> emptypvec;
 
 //NOTE: please ensure patron and book data are loaded from disk before calling the following
 //NOTE: also make sure you save patron and book data to disk any time you make a change to them
@@ -35,8 +32,8 @@ const vector<patron> emptypvec;
  * Only used to clear the containers and re-initialize them to their empty state
  */
 void clearContainers(){
-	bvec = emptybvec;
-	pvec = emptypvec;
+	bvec.clear();
+	pvec.clear();
 }
 
 /*
@@ -70,7 +67,7 @@ void saveAllData(){
  * 			PATRON_NOT_ENROLLED
  */
 int isPatronEnrolled(int patronid){
-	for (int i = 0; i < abs(pvec.size()); i++){
+	for (int i = 0; i < pvec.size(); i++){
 		if (patronid == pvec[i].patron_id){ // patron is enrolled, break from loop
 			return i;
 		}
