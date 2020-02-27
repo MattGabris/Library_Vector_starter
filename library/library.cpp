@@ -12,13 +12,10 @@ using namespace std;
 // TODO ----- Why do these not work? I'm unsure how to get a const* char
 // 				to point to the file names and get the laodFile and loadPatrons functions to work
 
-const char* bkFile = BOOKFILE;
-
-
-
-char* ptFile = PATRONFILE;
-char* emptybkFile = BOOKFILE_EMPTY; // To be used in reload all data??
-char* emptyptFile = PATRONFILE_EMPTY;	// To be used in reload all data??
+const char* bkFile = BOOKFILE.c_str();
+const char* ptFile = PATRONFILE.c_str();
+const char* emptybkFile = BOOKFILE_EMPTY.c_str(); // To be used in reload all data??
+const char* emptyptFile = PATRONFILE_EMPTY.c_str();	// To be used in reload all data??
 // This affects all the loadBook, loadPatron, saveBook, and savePatron calls as well as many others
 // When this issue is resolved, go through code again and make sure each of these works as intended
 
@@ -73,7 +70,7 @@ void saveAllData(){
  * 			PATRON_NOT_ENROLLED
  */
 int isPatronEnrolled(int patronid){
-	for (int i = 0; i < pvec.size(); i++){
+	for (int i = 0; i < abs(pvec.size()); i++){
 		if (patronid == pvec[i].patron_id){ // patron is enrolled, break from loop
 			return i;
 		}
