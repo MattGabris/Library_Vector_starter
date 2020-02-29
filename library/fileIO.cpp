@@ -51,9 +51,9 @@ int loadBooks(std::vector<book> &books, const char* filename) // from File to Ve
 		std::getline(inStreamBook, curbook); // load new line (each line = 1 book's info)
 		ss.str(curbook); // convert book stream from input stream to string stream and store in ss
 
-		// CHECK : does the file have any data? TODO Might not be the right place to put this
+		// CHECK : does the file have any data?
 		if (curbook.empty()){
-			return NO_BOOKS_IN_LIBRARY; // RETURN because there was no data in the file
+			break;
 		}
 
 		// Take data from input and store data
@@ -62,7 +62,7 @@ int loadBooks(std::vector<book> &books, const char* filename) // from File to Ve
 		std::getline(ss, curbookauthor, CHAR_TO_SEARCH_FOR); // reads line until delim, gets curbookauthor
 		std::getline(ss, curbookstate, CHAR_TO_SEARCH_FOR); // reads line until delim, gets curbookstate
 		std::getline(ss, curbookpatron, CHAR_TO_SEARCH_FOR); // reads line until delim, gets curbookpatron
-		// CLEARS the input vector
+
 		// Convert data as necessary and push into tempbook struct
 		tempbook.book_id = stoi(curbookid);
 		tempbook.title = curbooktitle;
@@ -172,7 +172,7 @@ int loadPatrons(std::vector<patron> &patrons, const char* filename)
 
 		// CHECK : does the file have any data? TODO Might not be the right place to put this
 		if (curpatron.empty()){
-			return NO_PATRONS_IN_LIBRARY; // RETURN because there was no data in the file
+			break;
 		}
 
 		// Take data from input and store data
@@ -197,7 +197,7 @@ int loadPatrons(std::vector<patron> &patrons, const char* filename)
 
 	// CHECK : does the books vector have any data? (Check number 2)
 	if (patrons.size() == 0){ // if no patrons in library
-		return NO_BOOKS_IN_LIBRARY; // RETURN because the input vector was empty
+		return NO_PATRONS_IN_LIBRARY; // RETURN because the input vector was empty
 	}
 
 	return SUCCESS; // RETURN because file was successfully iterated through and placed into a container

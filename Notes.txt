@@ -1,0 +1,32 @@
+**** NOTES ON WHAT IS FAILING IN THE PROGRAM ****
+
+SUCCESS 1 points:3
+SUCCESS 2 points:6
+SUCCESS 3 points:9
+SUCCESS 4 points:12
+SUCCESS 5 points:17
+SUCCESS 6 points:20
+SUCCESS 7 points:23
+SUCCESS 8 points:26
+SUCCESS 9 points:29
+SUCCESS 10 points:34
+SUCCESS tnbnp1 points:37
+SUCCESS tnbnp2 points:40
+SUCCESS te1 points:43
+FAIL te2
+FAIL te3
+FAIL te4
+FAIL te5
+SUCCESS te6 points:46
+SUCCESS tci1 points:49
+FAIL tci2
+FAIL tci..
+FAIL tci..
+FAIL tci..
+FAIL tci..
+FAIL tci..
+FAIL tci3
+FAIL tci4
+SUCCESS tci5 points:54
+SUCCESS tci6 points:59
+FAIL tci7
