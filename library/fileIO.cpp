@@ -52,7 +52,7 @@ int loadBooks(std::vector<book> &books, const char* filename) // from File to Ve
 		ss.str(curbook); // convert book stream from input stream to string stream and store in ss
 
 		// CHECK : does the file have any data? TODO Might not be the right place to put this
-		if (curbook == ""){
+		if (curbook.empty()){
 			return NO_BOOKS_IN_LIBRARY; // RETURN because there was no data in the file
 		}
 
@@ -171,7 +171,7 @@ int loadPatrons(std::vector<patron> &patrons, const char* filename)
 		ss.str(curpatron); // convert patron stream from input stream to string stream and store in ss
 
 		// CHECK : does the file have any data? TODO Might not be the right place to put this
-		if (curpatron == ""){
+		if (curpatron.empty()){
 			return NO_PATRONS_IN_LIBRARY; // RETURN because there was no data in the file
 		}
 
@@ -210,5 +210,30 @@ int loadPatrons(std::vector<patron> &patrons, const char* filename)
  * */
 int savePatrons(std::vector<patron> &patrons, const char* filename)
 {
-	return SUCCESS;
+	// CHECK : does the input vector have any data?
+	if (patrons.size() == 0){ // if no patrons in the library
+		return NO_PATRONS_IN_LIBRARY;	// RETURN because teh input vector was empty
+	}
+	// Create an output stream for the patrons from the ourput file and open it
+	ofstream outStreamPatron;
+	outStreamPatron.open(filename, ios::out);
+
+	// CHECK : is the file open?
+	if (!outStreamPatron.is_open()) { // if file did not open
+		return COULD_NOT_OPEN_FILE; // RETURN because the file was not opened
+	}
+	// From here on out, assume the file has been opened and the input vector is empty
+
+	// Temporary string to hold a line of text containing a book's data
+	std::string patronLine;
+	// Fill patronLine with data and push it onto the file's ofstream
+	for (int i = 0; i < patrons.size(); i++){
+		patronLine = to_string(patrons[i].patron_id) + "," +
+				patrons[i].name + "," + to_string(patrons[i].number_books_checked_out);
+		outStreamPatron << patronLine << "\n";
+	}
+	// CLOSE file
+	outStreamPatron.close();
+
+	return SUCCESS; // RETURN because all data was saved successfully
 }
