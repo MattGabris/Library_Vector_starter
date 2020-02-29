@@ -173,6 +173,10 @@ void testnumbBooksAndnumpPatrons(){
 	}
 	EXPECT_EQ(7, n,"tnbnp2",THREE_POINTS);
 }
+
+
+
+
 void testenroll(){		
 	//force a reload of data
 	try{

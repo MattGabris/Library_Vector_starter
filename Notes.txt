@@ -20,13 +20,13 @@ FAIL te5
 SUCCESS te6 points:46
 SUCCESS tci1 points:49
 FAIL tci2
-FAIL tci..
-FAIL tci..
-FAIL tci..
-FAIL tci..
-FAIL tci..
+SUCCESS tci.. points:50
+SUCCESS tci.. points:51
+SUCCESS tci.. points:52
+SUCCESS tci.. points:53
+SUCCESS tci.. points:54
 FAIL tci3
 FAIL tci4
-SUCCESS tci5 points:54
-SUCCESS tci6 points:59
+SUCCESS tci5 points:59
+SUCCESS tci6 points:64
 FAIL tci7

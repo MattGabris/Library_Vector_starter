@@ -202,6 +202,7 @@ int enroll(std::string &name) {
 	// Initialize other fields such as name and number_books_checked_out
 	newPatron.name = name;
 	newPatron.number_books_checked_out = NONE;
+	newPatron.patron_id = thisPatron_id;
 	// push the new patron onto the back of the container
 	pvec.push_back(newPatron);
 	// SAVE patrons
