@@ -110,7 +110,7 @@ int saveBooks(std::vector<book> &books, const char* filename) // from Vector to 
 
 	// Create an output stream for the books from the output file and open it
 	ofstream outStreamBook;
-	outStreamBook.open(filename, ios::in);
+	outStreamBook.open(filename, ios::out);
 
 	// CHECK : is the file open?
 	if (!outStreamBook.is_open()){ // if file did not open

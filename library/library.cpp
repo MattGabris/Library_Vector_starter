@@ -215,6 +215,7 @@ int enroll(std::string &name) {
  * 
  */
 int numbBooks() {
+	reloadAllData();
 	return bvec.size();
 }
 
@@ -223,6 +224,7 @@ int numbBooks() {
  * (ie. if 3 patrons returns 3)
  */
 int numbPatrons() {
+	reloadAllData();
 	return pvec.size();
 }
 
