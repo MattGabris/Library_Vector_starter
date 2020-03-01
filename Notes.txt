@@ -13,20 +13,21 @@ SUCCESS 10 points:34
 SUCCESS tnbnp1 points:37
 SUCCESS tnbnp2 points:40
 SUCCESS te1 points:43
-FAIL te2
-FAIL te3
-FAIL te4
-FAIL te5
-SUCCESS te6 points:46
-SUCCESS tci1 points:49
-FAIL tci2
-SUCCESS tci.. points:50
-SUCCESS tci.. points:51
-SUCCESS tci.. points:52
-SUCCESS tci.. points:53
-SUCCESS tci.. points:54
+SUCCESS te2 points:46
+SUCCESS te3 points:51
+SUCCESS te4 points:54
+SUCCESS te5 points:59
+SUCCESS te6 points:62
+SUCCESS tci1 points:65
+SUCCESS tci2 points:70
+SUCCESS tci.. points:71
+SUCCESS tci.. points:72
+SUCCESS tci.. points:73
+SUCCESS tci.. points:74
+SUCCESS tci.. points:75
 FAIL tci3
 FAIL tci4
-SUCCESS tci5 points:59
-SUCCESS tci6 points:64
+SUCCESS tci5 points:80
+SUCCESS tci6 points:85
 FAIL tci7
+ 

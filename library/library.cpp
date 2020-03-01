@@ -130,7 +130,7 @@ int checkout(int bookid, int patronid) {
 	book thisBook = bvec[bookIndexHolder];
 
 	// CHECK : does the patron have the MAX_BOOKS_ALLOWED_OUT?
-	if (thisPatron.number_books_checked_out == MAX_BOOKS_ALLOWED_OUT){
+	if (howmanybooksdoesPatronHaveCheckedOut(patronid) == MAX_BOOKS_ALLOWED_OUT){
 		return TOO_MANY_OUT; // RETURN because the patron has the max allowed number of books checked out
 	}
 	// From here on out, assume the patron is enrolled, the book is in the library, and the patron can check it out
@@ -198,7 +198,7 @@ int enroll(std::string &name) {
 	// Create new patron object
 	patron newPatron;
 	// Generate patron_id
-	int thisPatron_id = numbPatrons() + 1;
+	int thisPatron_id = numbPatrons();
 	// Initialize other fields such as name and number_books_checked_out
 	newPatron.name = name;
 	newPatron.number_books_checked_out = NONE;
@@ -246,9 +246,8 @@ int howmanybooksdoesPatronHaveCheckedOut(int patronid) {
 		return PATRON_NOT_ENROLLED; // RETURN because the patron is not enrolled
 	}
 	// From here on out, assume the patron is enrolled
-	patron thisPatron = pvec[patronIndexHolder];
-
-	return thisPatron.number_books_checked_out; // RETURN number of books checked out
+//	patron thisPatron = pvec[patronIndexHolder];
+	return pvec[patronid].number_books_checked_out; // RETURN number of books checked out
 }
 
 /* search through patrons container to see if patronid is there
@@ -268,7 +267,7 @@ int whatIsPatronName(std::string &name, int patronid) {
 	}
 	// From here on out, assume the patron is enrolled
 	pvec[patronIndexHolder].name = name; // Set the patron's name (I think this what you have to do???)
-	return patronid; // RETURN the patronid given, now with a name associated to it
+	return SUCCESS; // RETURN the patronid given, now with a name associated to it
 }
 
 
