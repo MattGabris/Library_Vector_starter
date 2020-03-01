@@ -119,7 +119,7 @@ int checkout(int bookid, int patronid) {
 		return PATRON_NOT_ENROLLED; // RETURN because the patron is not enrolled
 	}
 	// From here on out, assume the patron is enrolled
-	patron thisPatron = pvec[patronIndexHolder];
+	patron thisPatron = pvec[patronid];
 
 	// CHECK : is book in the collection?
 	bookIndexHolder = isBookInCollection(bookid);
@@ -139,6 +139,9 @@ int checkout(int bookid, int patronid) {
 	thisBook.loaned_to_patron_id = patronid;
 	thisBook.state = OUT;
 	thisPatron.number_books_checked_out++;
+	// PUSH the structs to their vector indexes
+	bvec[bookIndexHolder] = thisBook;
+	pvec[patronIndexHolder] = thisPatron;
 	// SAVE books and patrons
 	saveAllData(); // ----- Hopefully this works?? I wrote a helper method
 	return SUCCESS; // RETURN because all checks passed and the data was successfully saved
@@ -246,7 +249,7 @@ int howmanybooksdoesPatronHaveCheckedOut(int patronid) {
 		return PATRON_NOT_ENROLLED; // RETURN because the patron is not enrolled
 	}
 	// From here on out, assume the patron is enrolled
-//	patron thisPatron = pvec[patronIndexHolder];
+	//	patron thisPatron = pvec[patronIndexHolder];
 	return pvec[patronid].number_books_checked_out; // RETURN number of books checked out
 }
 
