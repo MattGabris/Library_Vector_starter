@@ -181,6 +181,9 @@ int checkin(int bookid) {
 	thisPatron.number_books_checked_out--;
 	thisBook.loaned_to_patron_id = NO_ONE;
 	thisBook.state = IN;
+	// PUSH the structs to their vector indexes
+	bvec[bookIndexHolder] = thisBook;
+	pvec[patronIndexHolder] = thisPatron;
 	// SAVE books and patrons
 	saveAllData(); // ----- Hopefully this works?? I wrote a helper method
 	return SUCCESS; // RETURN because all checks passed and the data was successfully saved

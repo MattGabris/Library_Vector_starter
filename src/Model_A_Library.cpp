@@ -251,7 +251,6 @@ void testcheckoutandin(){
 	}
 	
 
-
 	int i;
 	for (i=0;i<MAX_BOOKS_ALLOWED_OUT;i++){
 		try{
@@ -277,9 +276,6 @@ void testcheckoutandin(){
 	}
 	EXPECT_EQ(MAX_BOOKS_ALLOWED_OUT, iret,"tci4",FIVE_POINTS);
 	
-
-
-
 	//try to check in a bogus book
 	book = BOGUS_BOOK;
 	try{
