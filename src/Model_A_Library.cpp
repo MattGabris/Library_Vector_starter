@@ -256,7 +256,6 @@ void testcheckoutandin(){
 	for (i=0;i<MAX_BOOKS_ALLOWED_OUT;i++){
 		try{
 			iret = checkout(i, user);
-			std::cout << "Number of books checked out: " << howmanybooksdoesPatronHaveCheckedOut(user) << endl;
 		} catch (...) {
 			cout<<"Threw exception when checking out"<<endl;
 		}
@@ -265,7 +264,6 @@ void testcheckoutandin(){
 	}
 
 	try{
-		std::cout << "HERE : " << i << endl;
 		iret = checkout(i++, user);
 	} catch (...) {
 		cout<<"Threw exception when checking out"<<endl;
